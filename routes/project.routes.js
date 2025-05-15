@@ -1,51 +1,31 @@
 const express = require('express');
 const router = express.Router();
 const projectController = require('../controllers/project.controller');
+const { authenticateToken } = require('../middleware/auth');
+
+// Apply authentication middleware to all routes
+router.use(authenticateToken);
 
 // Get all projects
-// Add this mock endpoint at the top of your routes
-router.get('/', (req, res) => {
-  // Mock data for testing
-  const mockProjects = [
-    {
-      id: 1,
-      name: 'Test Project 1',
-      admin: 'Admin User',
-      technician: 'Tech User',
-      progress: 25,
-      state: 'Ongoing',
-      start_date: '2023-01-01',
-      end_date: '2023-12-31'
-    },
-    {
-      id: 2,
-      name: 'Test Project 2',
-      admin: 'Admin User',
-      technician: 'Tech User',
-      progress: 75,
-      state: 'Completed',
-      start_date: '2023-02-01',
-      end_date: '2023-11-30'
-    }
-  ];
-  
-  res.status(200).json(mockProjects);
-});
 router.get('/', projectController.getAllProjects);
 
 // Get project by ID
 router.get('/:id', projectController.getProjectById);
 
-// Create a new project
+// Get tasks for a specific project
+router.get('/:projectId/tasks', (req, res) => {
+  const { projectId } = req.params;
+  // Redirect to the task controller's endpoint
+  res.redirect(`/api/tasks/project/${projectId}`);
+});
+
+// Create new project
 router.post('/', projectController.createProject);
 
-// Update a project
+// Update project
 router.put('/:id', projectController.updateProject);
 
-// Delete a project
+// Delete project
 router.delete('/:id', projectController.deleteProject);
-
-// Update project progress
-router.patch('/:id/progress', projectController.updateProgress);
 
 module.exports = router;
