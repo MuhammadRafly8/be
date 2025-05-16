@@ -26,6 +26,16 @@ const MeetingSchedule = sequelize.define('MeetingSchedule', {
   project_id: {
     type: DataTypes.INTEGER,
     allowNull: true
+  },
+  platform: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: ''
+  },
+  endDate: {
+    type: DataTypes.DATE,
+    allowNull: true,
+    defaultValue: null
   }
 }, {
   tableName: 'meeting_schedules',

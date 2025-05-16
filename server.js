@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const db = require('./database/sequelize');
 const authRoutes = require('./routes/auth.routes');
+const meetingScheduleRoutes = require('./routes/meetingSchedule.routes');
 
 
 // Initialize Express app
@@ -36,6 +37,7 @@ const projectRoutes = require('./routes/project.routes');
 app.use('/api/projects', projectRoutes);
 app.use('/api/project-scopes', require('./routes/projectScope.routes'));
 app.use('/api/project-scope-tasks', require('./routes/projectScopeTask.routes'));
+app.use('/api/meeting-schedules', meetingScheduleRoutes);
 
 // Root route
 app.get('/', (req, res) => {
