@@ -1,7 +1,8 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../database/sequelize');
+const db = require('../database/sequelize');
+const Project = require('./project.model');
 
-const Task = sequelize.define('Task', {
+const Task = db.define('Task', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -21,18 +22,29 @@ const Task = sequelize.define('Task', {
   },
   status: {
     type: DataTypes.STRING,
-    allowNull: true,
-    defaultValue: 'pending'
+    allowNull: false,
+    defaultValue: 'not_started'
   },
   email_sent: {
     type: DataTypes.BOOLEAN,
     defaultValue: false
+  },
+  project_id: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    references: {
+      model: 'projects',
+      key: 'id'
+    }
   }
 }, {
   tableName: 'tasks',
   timestamps: true,
-  createdAt: 'created_at',
-  updatedAt: 'updated_at'
+  underscored: true
 });
+
+// Define association
+Task.belongsTo(Project, { foreignKey: 'project_id' });
+Project.hasMany(Task, { foreignKey: 'project_id' });
 
 module.exports = Task;

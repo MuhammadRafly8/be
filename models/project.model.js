@@ -1,7 +1,8 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../database/sequelize');
+const db = require('../database/sequelize');
+const User = require('./user.model');
 
-const Project = sequelize.define('Project', {
+const Project = db.define('Project', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -31,25 +32,34 @@ const Project = sequelize.define('Project', {
     type: DataTypes.STRING,
     allowNull: true
   },
-  admin_id: {
-    type: DataTypes.INTEGER,
+  tech_name: {
+    type: DataTypes.STRING,
     allowNull: true
   },
-  technician_id: {
-    type: DataTypes.INTEGER,
+  tech_email: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  tech_phone: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  admin_name: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  admin_email: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  admin_phone: {
+    type: DataTypes.STRING,
     allowNull: true
   },
   state: {
-    type: DataTypes.ENUM('Proposal', 'Ongoing', 'Completed', 'On Hold'),
+    type: DataTypes.STRING,
+    allowNull: true,
     defaultValue: 'Proposal'
-  },
-  progress: {
-    type: DataTypes.INTEGER,
-    defaultValue: 0,
-    validate: {
-      min: 0,
-      max: 100
-    }
   },
   start_date: {
     type: DataTypes.DATE,
@@ -58,12 +68,36 @@ const Project = sequelize.define('Project', {
   end_date: {
     type: DataTypes.DATE,
     allowNull: true
+  },
+  progress: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    defaultValue: 0
+  },
+  admin_id: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    references: {
+      model: 'users',
+      key: 'id'
+    }
+  },
+  technician_id: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    references: {
+      model: 'users',
+      key: 'id'
+    }
   }
 }, {
   tableName: 'projects',
   timestamps: true,
-  createdAt: 'created_at',
-  updatedAt: 'updated_at'
+  underscored: true
 });
+
+// Fix the associations with unique aliases
+Project.belongsTo(User, { foreignKey: 'admin_id', as: 'adminUser' });
+Project.belongsTo(User, { foreignKey: 'technician_id', as: 'technicianUser' });
 
 module.exports = Project;

@@ -43,6 +43,7 @@ TaskUser.belongsTo(User, { foreignKey: 'user_id' });
 Project.hasMany(MeetingSchedule, { foreignKey: 'project_id' });
 MeetingSchedule.belongsTo(Project, { foreignKey: 'project_id' });
 
+<<<<<<< HEAD
 // Add many-to-many association between MeetingSchedule and User through MeetingScheduleMember
 MeetingSchedule.belongsToMany(User, {
   through: MeetingScheduleMember,
@@ -63,6 +64,8 @@ Project.belongsTo(User, { foreignKey: 'admin_id', as: 'adminUser' });
 
 User.hasMany(Project, { foreignKey: 'technician_id', as: 'technicianProjects' });
 Project.belongsTo(User, { foreignKey: 'technician_id', as: 'technicianUser' });
+=======
+>>>>>>> 076e83de5f6678637c8e94b6ee74c73f21dfb7d6
 
 // Make sure to export the Project model
 module.exports = {

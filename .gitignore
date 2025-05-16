@@ -46,7 +46,7 @@ logs
 
 # git
 .git/
-/fe/.git/
+/fe/.git
 
 # line endings
 *.lock text eol=lf
